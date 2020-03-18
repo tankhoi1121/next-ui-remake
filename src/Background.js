@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import Item from "./Item";
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 class Background extends Component {
   constructor() {
@@ -34,9 +35,20 @@ class Background extends Component {
     return (
       <div>
         <span>City API</span>
-        {p.map(city => (
-          <Item key={city.id} {...city} />
-        ))}
+        <table class="table">
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">RegionID</th>
+              <th scope="col">CityName</th>
+              <th scope="col">StateName</th>
+              <th scope="col">CityPopulation</th>
+              <th scope="col">Area</th>
+            </tr>
+          </thead>
+          {p.map(city => (
+            <Item key={city.id} {...city} />
+          ))}
+        </table>
       </div>
     );
   }
