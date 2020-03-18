@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import Item from "./Item";
 
 class Background extends Component {
   constructor() {
@@ -28,14 +29,14 @@ class Background extends Component {
   }
 
   render() {
-    const { cities } = this.state;
+    this.props = this.state.cities;
+    const p = this.props;
     return (
       <div>
-        <ul>
-          {Object.keys(cities).map(city => (
-            <li>{city}</li>
-          ))}
-        </ul>
+        <span>City API</span>
+        {p.map(city => (
+          <Item key={city.id} {...city} />
+        ))}
       </div>
     );
   }
