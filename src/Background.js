@@ -1,49 +1,43 @@
 import React, { Component } from "react";
-import axios from "axios";
+import Axios from "axios";
 
 class Background extends Component {
   constructor() {
     super();
     this.state = {
-      cities: [],
-      isFetching: false
+      isLoading: false,
+      cities: []
     };
   }
 
   componentDidMount() {
-    this.setState({ cities: [], isFetching: true });
+    this.setState({ isLoading: true });
     const config = {
+      method: "POST",
+      url: "http://localhost:5000/api/City/GetCity",
       headers: {
-        "Access-Control-Allow-Origin": "*"
-      },
-      proxy: {
-        host: "192.168.0.102",
-        port: 5000
+        "Access-Control-Request-Headers": "http://localhost:5000",
+        "Content-Type": "application/json"
       }
     };
 
-    const body = "";
-    axios({
-      method: "POST",
-      proxytype: "socks5",
-      proxy: {
-        host: "192.168.0.102",
-        port: 5000
-      },
-      url: "http://localhost:5000/api/City/GetCity"
-    })
-      .then(res => {
-        this.setState({ cities: res.data, isFetching: false });
-      })
-      .catch(e => {
-        console.log(e);
-        this.setState({ ...this.state, isFetching: false });
-      });
+    Axios.request(config).then(res => {
+      console.log(res.data);
+      this.setState({ cities: res.data });
+    });
   }
 
   render() {
-    return <p>{this.state.cities}</p>;
+    const { cities } = this.state;
+    return (
+      <div>
+        <ul>
+          {Object.keys(cities).map(city => (
+            <li>{city}</li>
+          ))}
+        </ul>
+      </div>
+    );
   }
 }
-
 export default Background;
